@@ -165,7 +165,47 @@
         per a poder saber configurar la prioritat dels paquets, per elegir quina versió elegir. 
         <strong>Seguidament teniu la meva pràctica d'abaix</strong>,
          en el boto que diu Veure el Pinning Packet i tambe explicada punt a punt en la pàgina web.</p>
-      <img src="../img/exemple.svg" alt="Exemple de captura de pantalla de l'assistent d'instal·lació">
+      <img src="../img/WIRESHARK.png" alt="Paquet en el qual s'ha realitzat la feina">
+      <p>Primer que tot realitzarem una comprovació per a saber si tenim alguna versió d’aquest APT i qui és el seu candidat, per a fer-ho executarem la comanda 
+        <strong>“apt-cache policy wireshark”</strong>, ja que aquest és el paquet que volem instal·lar.</p>
+      <img src="../img/Pinning_packet1.png" alt="Primer pas a realitzar">
+       <p><strong>Nota:</strong> Com es pot observar en la imatge ens mostra la versió que te de l’APT i el seu candidat que és la versió dels repositoris d’Ubuntu, 
+         en aquest cas es el <strong>“4.2.2.1build3”</strong> per als dos.</p>
+      <p>Seguidament afegirem els respositoris extern que farem servir per a comprovar si el apt-cache policy el detectará després, per a realitzar-ho executarem 
+        des del mode root la comanda <strong>“add-apt-repository ppa:wireshark-dev/stable”</strong>.</p>
+      <img src="../img/Pinning_packet2.png" alt="Segon pas a realitzar">
+      <p>Haurem de esperar un moment per a que finalitzi la seva instal·lació, com es pot visualitzar no va veure 
+        cap error durant la instal·lació del repositori.</p>
+      <img src="../img/Pinning_packet3.png" alt="Tercer pas a realitzar">
+      <p>A continuació executarem la comanda <strong>“apt update”</strong>, per a realitzar una actualització de la llista de paquets i programes més recents que estan disponibles als repositoris.</p>
+       <img src="../img/Pinning_packet4.png" alt="Quart pas a realitzar">
+      <p>Si realitzem altra vegada executem la comanda <strong>“apt-cache policy wireshark”</strong>, podem observar que ens detecta l’altra versió del repositori instal·lat en el pas anterior, 
+        però en aquest cas farem l’instal·lació de la versió <strong>“4.2.2-1.1build3”</strong>.</p>
+      <img src="../img/Pinning_packet5.png" alt="Quint pas a realitzar">
+      <p>Dins del fitxer afegirem les següents regles, primer que tot afegirem la primera regla la qual és la següent:</p>
+      <ul>
+        <li><strong>Package: *:</strong> Fa que s'apliqui la regla a tots els paquets del sistema amb qualsevol nom. </li>
+        <li><strong>Pin: release a=*:</strong> Selecciona les versions dels repositoris d’on venen, en aquest cas d’un arxiu des de qualsevol repositori.</li>
+        <li><strong>Pin-Priority: 400:</strong> Realitza una assignació de prioritat d’uns 400.</li>
+      </ul>
+       <img src="../img/Pinning_packet6.png" alt="Sext pas a realitzar">
+      <p>La segona regla creada realitza el següent procés:</p>
+      <ul>
+        <li><strong>Package: wireshark* tshark libwireshark* libwiretap* libwsutil*:</strong> Fa que s’apliqui la regla a la llista de paquets, els quals són els següents la versió de 
+          wireshark pel terminal i les llibreries internes que necessita.</li>
+        <li><strong>Pin: version 4.2.2-1.1build3:</strong> Selecciona només la versió exacta 4.2.2-1.1build3 d'aquests paquets per a que sols li afecti a ella.</li>
+        <li><strong>Pin-Priority: 600:</strong> Realitza una assignació de prioritat d’uns 600, la qual és superior als 400 de la resta.</li>
+      </ul>
+       <img src="../img/Pinning_packet7.png" alt="Sextim pas a realitzar">
+      <p><strong>Nota:</strong> En aquest cas com podem observar la versió que hem escollit té una prioritat més mayor que els altres, ja que la versió te uns 600 i els altres uns 400, sabent això l’APT triarà aquesta versió.</p>
+      <p>Per a finalitzar comprovarem que el paquet capti la versió que hem escollit, per a fer-ho executarem la comanda <strong>“apt-cache policy wireshark”</strong>, en aquest cas podem observar que 
+        el candidat és la versió <strong>“4.2.2-1.1build3”</strong>.</p>
+      <img src="../img/Pinning_packet8.png" alt="Octavo pas a realitzar">
+      <p>Per a finalitzar executarem la comanda <strong>“apt install wireshark”</strong> per a instal·lar el paquet anomenat Wireshark, per a continuar la instal·lació polsarem ENTER.</p>
+      <img src="../img/Pinning_packet9.png" alt="Nove pas a realitzar">
+      <p>Després de realitzar la instal·lació de l’eina Wireshark, executarem per última vegada la comanda “apt-cache policy wireshark”, si observem la línia de instal·lats podem veure que 
+        tenim instal·lat la versió escollida <strong>“4.2.2-1.1build3”</strong>, això vol dir que el pinning funciona perfectament.</p>
+        <img src="../img/Pinning_packet10.png" alt="Decim pas a realitzar">
       <p><a href="../docs/Pinning_Packet_Ochoa_Valeria.pdf" target="_blank" rel="noopener noreferrer">
       Veure el Pinning Packet (PDF)
     </a></p>
