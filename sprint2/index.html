@@ -33,13 +33,14 @@
         <tr><td>2</td><td><a href="#apartat2">Tipus de formateig</a></td></tr>
          <tr><td>3</td><td><a href="#apartat3">Gestió de processos</a></td></tr>
         <tr><td>4</td><td><a href="#apartat4">Còpies de seguretat i automatització de tasques</a></td></tr>
-         <tr><td>5</td><td><a href="#apartat5">Gestió d'usuaris i grups i permisos</a></td></tr>
-         <tr><td>6</td><td><a href="#apartat6">Quotes de disc</a></td></tr>
+         <tr><td>5</td><td><a href="#apartat5">Gestió d'usuaris i grups i permisos 1 part</a></td></tr>
+          <tr><td>5</td><td><a href="#apartat6">Gestió d'usuaris i grups i permisos 2 part</a></td></tr>
+         <tr><td>6</td><td><a href="#apartat7">Quotes de disc</a></td></tr>
       </tbody>
     </table>
 
     <article class="apartat" id="apartat2">
-          <h2>1. Tipus de formateig</h2>
+          <h2>2. Tipus de formateig</h2>
       <p>Per a començar aquesta pràctica accedirem dins del terminal i accedirem dins de l’usuari root amb 
         <strong>“sudo su”</strong>, per a seguidament executarem la comanda <strong>“apt install testdisk”</strong> 
         per instal·lar el paquet testdisk des dels repositoris d’Ubuntu.</p>
@@ -123,19 +124,275 @@
       <p>Ara si comprovem per última vegada podem observar que ens fer <strong>“ls”</strong> dins del directori <strong>“~/practica”</strong> que tenim els tres fitxers originals.</p>
       <img src="../img/formateig_22.png" alt="Captura 22 de la pràctica">
       <p class="tornar-index"><a href="#index-apartats">↑ Tornar a l'índex</a></p>
-
     </article>
-    <article class="apartat" id="apartat2">
-      <h2>2. Permisos i propietaris d'arxius</h2>
-      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-         ut aliquip ex ea commodo consequat. Cada arxiu té un
-         <strong>propietari, un grup i uns permisos</strong> que en determinen
-         l'accés.</p>
-      <img src="../img/exemple.svg" alt="Exemple de captura de pantalla dels permisos d'un arxiu">
-      <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-         dolore eu fugiat nulla pariatur.</p>
+    <article class="apartat" id="apartat3">
+            <h2>5. Gestió d'usuaris i grups (1a part)</h2>
+      <p>Executarem la comanda <strong>“whoami”</strong>, gràcies a això podem saber amb quin usuari estem utilitzant, en aquest cas és valeria, seguidament amb 
+        <strong>“id”</strong> veurem el nostre UID, el nostre grup i els nostres grups, en el meu cas em surt (uid) =1000, (gid)=1000 i (groups)= 1000, 4, 24, etc, 
+        per l'últim buscarem la meva línea en el /etc/passwd amb la variable $USER amb <strong>“grep $USER /etc/passwd”</strong>, com podem observar surt amb el meu uid 
+        i el meu gid amb el meu directori.</p>
+      <img src="../img/usuaris1_01.png" alt="Captura 1 de la pràctica">
+      <p>Seguidament amb la comanda <strong>“tail -5 /etc/passwd”</strong> podem veure les últimes línies del fitxer <strong>“/etc/passwd”</strong>, 
+        com podem observar el meu usuari surt en l’última línia amb el seu uid, gid el seu directori /home/valeria.</p>
+      <img src="../img/usuaris1_02.png" alt="Captura 2 de la pràctica">
+      <p>A continuació provarem veure el fitxer <strong>“/etc/shadow”</strong> sense permisos amb la comanda <strong>“cat /etc/shadow”</strong>, 
+        com podem veure ens diu que no tenim el permís necessari, però si executem la comanda <strong>“sudo grep $USER /etc/shadow”</strong> podem 
+        observar que ens surt la contrasenya del nostres usuari, però xifrat.</p>
+      <img src="../img/usuaris1_03.png" alt="Captura 3 de la pràctica">
+      <p>Ara amb la comanda <strong>“getent group sudo”</strong> veurem quin és membre del grup sudo, en aquest cas podem veure que sols el meu usuari 
+        forma part d’aquest grup, seguidament executarem la comanda <strong>“ls -a /etc/skel”</strong> per a observar que hi ha en aquesta carpeta i també 
+        els seus fitxers ocults, com podem veure ens apareixen fitxers com bash_logout, .bashrc, etc, aquests fitxers estiran en cada usuari nou.</p>
+      <img src="../img/usuaris1_04.png" alt="Captura 4 de la pràctica">
+      <p>Executarem la comanda <strong>“sudo useradd nuria”</strong> per a crear un usuari anomenat nuria, 
+        en aquest cas no ens surt cap missatge això vol dir que ha surt bé el procés.</p>
+      <img src="../img/usuaris1_05.png" alt="Captura 5 de la pràctica">
+      <p>Després fer al creació de l’usuari executarem la comanda <strong>“grep nuria /etc/passwd”</strong>, 
+        en aquest cas ens surt el seu uid i gid però el seu directori és diferent perquè el shell és /bin/sh, això vol dir que no té cap nom completa 
+        i no hi ha cap carpeta /home/nuria, ja que el useradd fa que li demanis, però si fem un <strong>“ls /home”</strong> sols podem veure que apareix el meu usuari i la nuria no.</p>
+      <img src="../img/usuaris1_06.png" alt="Captura 6 de la pràctica">
+      <p>Per fer-ho bé esborrarem l’usuari núria amb <strong>“sudo userdel nuria”</strong>, seguidament per a crear l’usuari correctament executarem la comanda
+        <strong>“sudo useradd -m -s /bin/bash -c "Nuria Vidal" nuria”</strong> per a crear-li una carpeta personal, tria-li el seu shell <strong>“/bin/bash”</strong> 
+        i afegirem el seu nom complet, per últim li crearem una contrasenya <strong>“Pixel.2026”</strong> amb <strong>“sudo passwd nuria”</strong>, per a posar-li la 
+        password haurem de posar dues vegades.</p>
+      <img src="../img/usuaris1_07.png" alt="Captura 7 de la pràctica">
+      <p>Com abans comprovarem amb la comanda <strong>“grep nuria /etc/passwd”</strong>, en aquest cas podem veure que en aquest cas si s’ha 
+        creat correctament la seva carpeta personal, ja que esta en el shell /bin/bash i té el seu nom complet, ara si executem <strong>“ls -a /home/nuria”</strong> 
+        en aquest ens surt accés denegat per tema de permisos.</p>
+      <img src="../img/usuaris1_08.png" alt="Captura 8 de la pràctica">
+      <p>Però si accedim dins de l'usuari root amb <strong>“sudo su”</strong> i executem la mateixa comanda <strong>“ls -a /home/nuria/”</strong> 
+        podem observar que ens surt els mateix fitxers que abans vam veure en el /etc/skel.</p>
+      <img src="../img/usuaris1_09.png" alt="Captura 9 de la pràctica">
+      <p>Seguidament crearem l’usuari pau amb la comanda <strong>“sudo adduser pau”</strong> primer que tot li posarem la contrasenya que ens especifica el treball
+        <strong>“Pixel.2026”</strong> dues vegades i el nom complet <strong>“Pau Serra”</strong> i polsarem enter a les altres preguntes, per a confirmar posarem s.</p>
+      <img src="../img/usuaris1_10.png" alt="Captura 10 de la pràctica">
+      <p>A continuació amb la comanda <strong>“sudo useradd -m -s /bin/bash -c "Marc Soler" marc”</strong> crearem a l’usuari marc amb el nom complet 
+        <strong>“Marc Soler”</strong> i la seva carpeta personal <strong>“/bin/bash”</strong> i amb <strong>“sudo passwd marc”</strong> li afegirem dues vegades 
+        la contrasenya demanda per el treball.</p>
+      <img src="../img/usuaris1_11.png" alt="Captura 11 de la pràctica">
+      <p>Ara crearem a l’usuari laia des de l’entorn gràfic per a fer-ho accedirem l’eina de paràmetres i anirem a sistema, per a seguidament polsar en l’opció d’usuaris.</p>
+      <img src="../img/usuaris1_12.png" alt="Captura 12 de la pràctica">
+      <p>Dins de l’opció d’usuaris polsarem primer que tot a desbloquejar i després a afegir usuari.</p>
+      <img src="../img/usuaris1_13.png" alt="Captura 13 de la pràctica">
+      <p>Seguidament elegirem els tipus estàndard de i omplirem els camps de nom complet <strong>“Laia Puig”</strong>, 
+        nom d’usuari <strong>“laia”</strong> i li especificarem que volem crear una contrasenya ara, per a despres escriure la contrasenya 
+        <strong>“Pixel.2026”</strong> dues vegades i polsar en afegir.</p>
+      <img src="../img/usuaris1_14.png" alt="Captura 14 de la pràctica">
+      <img src="../img/usuaris1_15.png" alt="Captura 15 de la pràctica">
+      <p>Ara amb la comanda <strong>“grep laia /etc/passwd”</strong> comprovarem si existeix l’usuari que hem creat com podem observar si s’ha creat sense cap problema, 
+        ja que podem veure que té la seva carpeta personal i el seu nom complet, per últim executarem la comanda <strong>“getent passwd nuria pau marc laia”</strong> 
+        per a veure els uid, el gid, el nom complet, carpeta personal i el shell /bin/bash dels quatre usuaris que hem creat.</p>
+      <img src="../img/usuaris1_16.png" alt="Captura 16 de la pràctica">
+      <p>Seguidament accedirem per terminal a l’usuari nuria, per a fer-ho executarem la comanda <strong>“su - nuria”</strong>, 
+        per a accedire haurem de posar la contrasenya, dins executarem la comanda <strong>“whoami”</strong>, en fer això podem observar que estem dins nuria, 
+        ja que ens apareix el seu nom i en fer <strong>“pwd”</strong> podem veure la seva ruta <strong>“/home/nuria”</strong>.</p>
+      <img src="../img/usuaris1_17.png" alt="Captura 17 de la pràctica">
+      <p>Seguint dins de l’usuari nuria crearem un fitxer amb la comanda <strong>“touch primer_dia.txt”</strong> i amb <strong>“ls -l”</strong> 
+        veurem que s’ha creat el fitxer sense cap problema i podem observar que aquest fitxer es de l’usuari nuria i el seu grup principal nuria.</p>
+      <img src="../img/usuaris1_18.png" alt="Captura 18 de la pràctica">
+      <p>Sortirem de l’usuari núria amb <strong>“exit”</strong>, seguidament tancarem la sessió del nostre usuari, per a després accedir a 
+        l’usuari Pau Serra i accedir a ell amb la seva contrasenya, en accedir obrirem un terminal i executarem la comanda <strong>“whoami”</strong> 
+        podem observar que estem dins de l’usuari pau, per últim amb <strong>“ls”</strong> podem observar que l’usuari té les carpetes de descàrrega o documents, 
+        ja que a accedit per primera vegada.</p>
+      <img src="../img/usuaris1_19.png" alt="Captura 19 de la pràctica">
+      <img src="../img/usuaris1_20.png" alt="Captura 20 de la pràctica">
+      <p>A continuació començarem a crear els grups, per a fer-ho executarem la comanda <strong>“sudo groupadd programadors”</strong> 
+        per a crear al grup de programadors, però en aquest cas com als usuaris no surt cap missatge, per això farem servir la comanda 
+        <strong>“sudo addgroup artistes”</strong> el qual crea el grup anomenat artistes, en aquest cas t’explica què fa i quin GID ha triat per al grup.</p>
+      <img src="../img/usuaris1_21.png" alt="Captura 21 de la pràctica">
+      <p>Seguidament amb la comanda <strong>“sudo groupadd testers”</strong> crearem al grup testers i amb el comandament <strong>“sudo addgroup becaris”</strong> 
+        crearem al grup becaris.</p>
+      <img src="../img/usuaris1_22.png" alt="Captura 22 de la pràctica">
+      <p>En un cas si executes la comanda <strong>“sudo groupadd progamadors”</strong> amb el nom malament escrit, per a comprovar-ho executarem la comanda 
+        <strong>“tail -5 /etc/group”</strong>, si ens fixem en l’última linea podem veure que si s’ha creat.</p>
+      <img src="../img/usuaris1_23.png" alt="Captura 23 de la pràctica">
+      <p>Per a poder esborrar el grup mal escrit executarem la comanda <strong>“sudo groupdel progamadors”</strong>, 
+        si volem comprovar si s’ha esborrat correctament executarem la comanda <strong>“getent group progamadors”</strong>, 
+        com podem observar no surt res, això vol dir que el grup ja no existeix.</p>
+      <img src="../img/usuaris1_24.png" alt="Captura 24 de la pràctica">
+      <p>A continuació amb <strong>“sudo usermod -aG programadors nuria”</strong> afegirem a l’usuari nuria al grup de programadors 
+        com el seu grup secundari, seguidament executarem la comanda <strong>“groups nuria”</strong> en fer això podem observar que nuria pertany 
+        al grup programadors, per últim afegirem a l’usuari pau a artistes amb <strong>“sudo gpasswd -a pau artistes”</strong></p>
+      <img src="../img/usuaris1_25.png" alt="Captura 25 de la pràctica">
+      <p>Amb la comanda <strong>“sudo adduser marc testers”</strong> afegirem a marc al grup de testers, ens hem de fixar posar primer 
+        el nom de l’usuari i després el grup, després amb <strong>“sudo adduser laia becaris”</strong> afegirem a laia al grup de becaris i per últim amb
+        <strong>“sudo gpasswd -a laia artistes”</strong> afegirem també a laia a altre grup anomenat artistes.</p>
+      <img src="../img/usuaris1_26.png" alt="Captura 26 de la pràctica">
+      <p>Seguidament executarem la comanda <strong>“sudo usermod -G testers nuria”</strong> per a afegir a l’usuari nuria al grup testers,
+        com podem observar ens hem oblidat de la a, al passar això podem veure amb <strong>“groups nuria”</strong> que ara la muria sols pertany a testers,
+        això passa perquè sense la a, la -G substitueix tots els grups.</p>
+      <img src="../img/usuaris1_27.png" alt="Captura 27 de la pràctica">
+      <p>Arreglarem aquest error amb la comanda <strong>“sudo usermod -aG programadors nuria”</strong>, seguidament executarem el comandament 
+        <strong>“groups nuria”</strong>, en aquest cas podem observar que l’usuari nuria forma part dels grups programadors i testers.</p>
+      <img src="../img/usuaris1_28.png" alt="Captura 28 de la pràctica">
+      <p>Ara si volem treure a un usuari d’un grup executarem la comanda <strong>“sudo gpasswd -d laia artistes”</strong>, 
+        en fer això en mostra un missatge que ens diu que l’usuari laia s’ha eliminat del grup artistes, seguidament comprovarem com a quedat tots 
+        els grups amb <strong>“getent group programadors artistes testers becaris”</strong>, en aquest cas podem veure que en programadors tenim a nuria, 
+        en artistes tenim a pau, en testers a marc i nuria i per últim en becaris a laia.</p>
+      <img src="../img/usuaris1_29.png" alt="Captura 29 de la pràctica">
+      <p>Seguidament veurem qual es el grup principal de l’usuari pau amb la comanda <strong>“id pau”</strong>, 
+        podem veure que el seu grup és pau, a continuació accedirem per terminal a pau amb <strong>“su - pau”</strong>, per a després crear un fitxer amb 
+        <strong>“touch dibuix_abans.png”</strong>, per últim comprovarem amb <strong>“ls -l”</strong> que el fitxer pertany al grup pau.</p>
+      <img src="../img/usuaris1_30.png" alt="Captura 30 de la pràctica">
+      <p>A continuació canvirem el grup principal de pau amb la comanda <strong>“sudo usermod -g programadors pau”</strong>, seguidament comprovarem amb
+        <strong>“id pau”</strong> que ara el seu grup principal es el de programadors.</p>
+      <img src="../img/usuaris1_31.png" alt="Captura 31 de la pràctica">
+      <p>Accedirem altra vegada a l’usuari pau amb <strong>“su - pau”</strong>, seguidament crearem un nou fitxer amb la comanda <strong>“touch codi_despres.py”</strong>
+        , per últim executarem la comanda <strong>“ls -l”</strong> podem observar que ha canviat el grup principal per al nou fitxer creat.</p>
+      <img src="../img/usuaris1_32.png" alt="Captura 32 de la pràctica">
+      <p>A continuació amb la comanda <strong>“sudo passwd -S marc”</strong> podem veure l’estat de l’usuari marc, en aquest cas podem veure que el seu estat es de 
+        P que vol dir que té una contrasenya vàlida, seguidament amb <strong>“sudo passwd -l marc”</strong> bloquejarem a marc i amb <strong>“sudo passwd -S marc”</strong> 
+        podem veure que hem bloquejat a marc.</p>
+      <img src="../img/usuaris1_33.png" alt="Captura 33 de la pràctica">
+      <p>Ara si executem la comanda <strong>“sudo grep marc /etc/shadow”</strong> podem observar que hi ha un simbol de exclamació davant de la contrasenya xifrada, 
+        això significa que l’usuari esta bloquejat, en cas que intentem accedir amb <strong>“su - marc”</strong> ens donara error.</p>
+      <img src="../img/usuaris1_34.png" alt="Captura 34 de la pràctica">
+      <p>Per a desbloquejar a marc executarem la comanda <strong>“sudo passwd -u marc”</strong>, seguidament veure el seu estat amb <strong>“sudo passwd -S marc”</strong>, 
+        com podem veure a tornat a P, ara si tornar intentar a accedir a l’usuari ara sí podem accedir sense cap problema.</p>
+      <img src="../img/usuaris1_35.png" alt="Captura 35 de la pràctica">
+      <p>A continuació amb la comanda <strong>“sudo usermod -l nvidal nuria”</strong> canviarem el nom de l’usuari núria a nvidal, seguidament amb 
+        <strong>“id nvidal”</strong> veurem que s’ha canviat el nom, però el nom del grup principal segueix amb el grup nuria, també si fem <strong>“grep nvidal /etc/passwd”</strong> 
+        podem veure que el nom de la seva carpeta no ha canviat tampoc.</p>
+      <img src="../img/usuaris1_36.png" alt="Captura 36 de la pràctica">
+      <p>Seguidament li canviarem el nom del grup personal amb <strong>“sudo groupmod -n nvidal nuria”</strong> i amb la comanda <strong>“sudo usermod -d /home/nvidal -m nvidal”</strong>
+        canviarem a una nova carpeta personal i mourem tot el contingut a la nova, ara amb <strong>“id nvidal”</strong> veurem que s’ha fet el canvi de nom del grup principal i amb 
+        <strong>“ls -l /home”</strong> podem observar que s’ha creat la carpeta per segueix la de l’usuari nuria, per últim executarem la comanda <strong>“ls -l /home/nvidal/”</strong> 
+        en aquest cas no podem accedir per falta de permisos.</p>
+      <img src="../img/usuaris1_37.png" alt="Captura 37 de la pràctica">
+      <p>Després executarem la comanda <strong>“su - nvidal”</strong> per a poder accedir dins a l’usuari nvidal, dins executarem la comanda 
+        <strong>“whoami”</strong> com podem observar ens surt que estem fer servir l’usuari nvidal, per últim sortirem amb èxit.</p>
+      <img src="../img/usuaris1_38.png" alt="Captura 38 de la pràctica">
+      <p>Seguidament amb la comanda <strong>“ls -l /home”</strong> buscarem la carpeta personal de l'usuari laia, com podem observar tenim la seva carpeta la primera de tots.</p>
+      <img src="../img/usuaris1_39.png" alt="Captura 39 de la pràctica">
+      <p>Ara amb la comanda <strong>“sudo userdel laia”</strong> esborrarem a l’usuari i seguidament executarem la comanda <strong>“ls -l /home”</strong>
+        , en aquest cas podem observar que la carpeta personal no s’ha esborrat completament, però ara surt el número UID de l’usuari ja no existeix.</p>
+      <img src="../img/usuaris1_40.png" alt="Captura 40 de la pràctica">
+      <p>A continuació esborrarem la carpeta de laia amb la comanda <strong>“sudo rm -r /home/laia”</strong>, com abans executarem altra vegada 
+        <strong>“ls -l /home”</strong> com podem veure s’ha esborrat del tot la carpeta personal.</p>
+      <img src="../img/usuaris1_41.png" alt="Captura 41 de la pràctica">
+      <p>Abans de finalitzar esborrarem el grup de becaris amb la comanda <strong>“sudo delgroup becaris”</strong> 
+        i per últim comprovarem si ja no existeix amb el comandament <strong>“getent group becaris”</strong>, com podem observar el grup de becaris ja no existeix.</p>
+      <img src="../img/usuaris1_42.png" alt="Captura 42 de la pràctica">
+      <p>Per a finalitzar executarem la comanda <strong>“getent passwd nvidal pau marc”</strong> podem observar tots els usuaris 
+        que queden amb el seu uid, gid i la seva carpeta personal, com a última comprovació executarem la comanda <strong>“getent group programadors artistes testers”</strong> 
+        per a poder veure als participants de cada grup i el seu gid de cada grup.</p>
+      <img src="../img/usuaris1_43.png" alt="Captura 43 de la pràctica">
       <p class="tornar-index"><a href="#index-apartats">↑ Tornar a l'índex</a></p>
     </article>
+
+    <article class="apartat" id="apartat4">
+      <h2>6. Gestió d'usuaris i grups (2a part)</h2>
+      <p>Crearem una carpeta anomenada pixelforge amb la comanda <strong>“sudo mkdir -p /srv/pixelforge”</strong>, 
+        seguidament accedirem dins de la carpeta creada amb la comanda <strong>“cd /srv/pixelforge”</strong> i per últim executarem 
+        <strong>“sudo mkdir codi art proves compartit”</strong> per a crear tres subcarpetes amb els noms codi, art i proves i una de compartida.</p>
+      <img src="../img/usuaris2_01.png" alt="Captura 1 de la pràctica">
+      <p>A continuació crearem un fitxer d’exemple per a cada carpeta amb la comanda <strong>“sudo touch codi/joc.py art/logo.png proves/informe.txt”</strong>,
+        després executarem la comanda <strong>“ls -l /srv/pixelforge”</strong> i podrem observar totes les subcarpetes creades per l’usuari root.</p>
+      <img src="../img/usuaris2_02.png" alt="Captura 2 de la pràctica">
+      <p>Seguidament amb la comanda <strong>“ls -l /srv/pixelforge/codi/joc.py”</strong> observarem els permisos del fitxer joc.py, en aquest cas podem veure que 
+        el seu propietari <strong>“root”</strong> té els permisos de llegir i executar, però els grups i altres sols tenen el permís de llegir.</p>
+      <img src="../img/usuaris2_03.png" alt="Captura 3 de la pràctica">
+      <p>Ara amb la comanda <strong>“ls -ld /srv/pixelforge/codi”</strong> observarem els permisos de la carpeta codi, podem saber que el seu usuari propietari 
+        <strong>“root”</strong> té els permisos de lectura, d’execució i escriptura, en aquest cas els grups tenen permisos d'execució i lectura, però els altres 
+        sols tenen el permís d’execució, aquesta informació ho podem observar també amb la comanda <strong>“stat /srv/pixelforge/codi/joc.py”</strong>, 
+        en aquest cas ens mostra els permisos amb lletres i en numeros alhora.</p>
+      <img src="../img/usuaris2_04.png" alt="Captura 4 de la pràctica">
+      <p>Seguidament amb la comanda <strong>“sudo chmod -R 750 /srv/pixelforge/codi”</strong> li posarem els permisos 750 a la carpeta codi, 
+        aquest permiso fa que el propietari tingui els permisos de lectura (4), escriptura (2) i execució (1), per a poder comprovar-ho executarem 
+        <strong>“ls -ld /srv/pixelforge/codi”</strong> en el qual podem observar que tenim la raó, ja que tenen els permisos que havia dit, per últim executarem 
+        la comanda <strong>“ls -l /srv/pixelforge/codi”</strong> com podem veure ens dona error accés.</p>
+      <img src="../img/usuaris2_05.png" alt="Captura 5 de la pràctica">
+      <p>Per accedir vaig tindre que accedir com a root amb <strong>“sudo su”</strong> i executar la mateixa comanda, en aquest cas podem observar que ens
+        surt també els mateixos permisos que en la carpeta per al propietari, els grups i els altres.</p>
+      <img src="../img/usuaris2_06.png" alt="Captura 6 de la pràctica">
+      <p>A continuació executarem <strong>“sudo chmod 755 /srv/pixelforge/art”</strong> això fa que tothom pugui veure els dibuixos de la carpeta d’art,
+        seguidament executarem el comandament <strong>“sudo chmod 640 /srv/pixelforge/proves/informe.txt”</strong> per a donar-li al fitxer informe.txt de proves 
+        el permís 640 per a que sols el grup ho puga llegir, això ho podem veure amb <strong>“ls -l /srv/pixelforge/proves”</strong>, com podem veure s’ha aplicat 
+        els permisos posats ya que sols el propietari el grup puguin llegir aquest fitxer.</p>
+      <img src="../img/usuaris2_07.png" alt="Captura 7 de la pràctica">
+      <p>Després amb <strong>“sudo chmod u-w /srv/pixelforge/art”</strong> li treurem el permis d’escriptura al propietari per a la carpeta art, 
+        seguidament executarem la comanda <strong>“ls -ld /srv/pixelforge/art”</strong> com podem observar ha desaparegut el w del primer apartat, 
+        però per a la resta no hi hagut cap canvi.</p>
+      <img src="../img/usuaris2_08.png" alt="Captura 8 de la pràctica">
+      <p>Ara amb <strong>“sudo chmod u+w /srv/pixelforge/art”</strong> li tornarem el permís d’escriptura al propietari per a la carpeta d’art, 
+        després amb <strong>“sudo chmod o= /srv/pixelforge/art”</strong> li treurem tot l’accés a la resta d’usuaris i amb 
+        <strong>“ls -ld /srv/pixelforge/art”</strong> podem observar que la resta d’usuaris no te cap permís amb aquesta carpeta.</p>
+      <img src="../img/usuaris2_09.png" alt="Captura 9 de la pràctica">
+      <p>A continuació executarem la comanda <strong>“sudo chmod g+rx,o-w /srv/pixelforge/art”</strong> per a donar permís de lectura 
+        i execució al grup i treure el permís d’escriptura a la resta d’usuaris.</p>
+      <img src="../img/usuaris2_10.png" alt="Captura 10 de la pràctica">
+      <p>Seguidament amb la comanda <strong>“sudo chown -R pau:programadors /srv/pixelforge/codi”</strong> 
+        fa que aquesta carpeta sigui de l’usuari pau i del grup programadors, això ho podem saber en executar
+        <strong>“ls -l /srv/pixelforge”</strong>, com podem observar ara l’usuari propietari es pau i el seu grup es programadors.</p>
+      <img src="../img/usuaris2_11.png" alt="Captura 11 de la pràctica">
+      <p>Després amb <strong>“sudo chgrp -R testers /srv/pixelforge/proves”</strong> canviarem el grup de la carpeta proves,
+        ara si realitzem un <strong>“ls -ld /srv/pixelforge/proves”</strong> podem observar que el grup a canviat i ara el seu grup es testers.</p>
+      <img src="../img/usuaris2_12.png" alt="Captura 12 de la pràctica">
+      <p>Accedirem amb l’usuari pau per teminal amb <strong>“su - pau”</strong>, seguidament accedirem a la carpeta codi amb la comanda
+        <strong>“cd /srv/pixelforge/codi”</strong>, podem veure si intentem crear un fitxer amb <strong>“touch nivell1.py”</strong> el fitxer es crea correctament
+        i el podem veure en realitzar un <strong>“ls -l”</strong>, però si intentem crear un fitxer dins de la carpeta proves amb la comanda
+        <strong>“touch /srv/pixelforge/proves/intrus.txt”</strong> podem veure que ens dona error per no tenir els permisos suficients.</p>
+      <img src="../img/usuaris2_13.png" alt="Captura 13 de la pràctica">
+      <p>A continuació executarem la comanda <strong>“sudo chmod g+w /srv/pixelforge/codi”</strong> per a donar el permís d’escriptura al grup
+        i seguidament executarem la comanda <strong>“ls -ld /srv/pixelforge/codi”</strong> com podem observar ara el grup te el permís d’escriptura.</p>
+      <img src="../img/usuaris2_14.png" alt="Captura 14 de la pràctica">
+      <p>Seguidament accedirem a l’usuari nvidal per terminal amb <strong>“su - nvidal”</strong>, per a després executar
+        <strong>“touch /srv/pixelforge/codi/mapa.py”</strong> per a crear un fitxer anomenat mapa.py al codi, per últim executarem
+        <strong>“ls -l /srv/pixelforge/codi/mapa.py”</strong> com podem observar el grup és nvidal i no programadors.</p>
+      <img src="../img/usuaris2_15.png" alt="Captura 15 de la pràctica">
+      <p>Executarem la comanda <strong>“sudo chmod g+s /srv/pixelforge/codi”</strong> per a posar el bit SGID a aquesta carpeta, per a després executar la comanda
+        <strong>“ls -ld /srv/pixelforge/codi”</strong> podem visualitzar que s’ha afegit una s en l’apartat del grup.</p>
+      <img src="../img/usuaris2_16.png" alt="Captura 16 de la pràctica">
+      <p>Altra vegada accedirem a l’usuari nvidal i dins d’ell executarem la comanda <strong>“touch /srv/pixelforge/codi/so.py”</strong> 
+        per a crear un nou fitxer anomenar so.py i per últim executarem la comanda <strong>“ls -l /srv/pixelforge/codi”</strong> podem observar que el nou la creat la nvidal
+        i que es del programador, però l’anterior es del grup principal de nvidal.</p>
+      <img src="../img/usuaris2_17.png" alt="Captura 17 de la pràctica">
+      <p>A continuació executarem la comanda <strong>“sudo chmod 777 /srv/pixelforge/compartit”</strong> per a que tots puguin escriure, executar i 
+        llegir aquesta carpeta sense cap problema.</p>
+      <img src="../img/usuaris2_18.png" alt="Captura 18 de la pràctica">
+      <p>Seguidament accedirem amb l’usuari pau i crearem un fitxer nou anomenat de_pau,txt amb <strong>“touch /srv/pixelforge/compartit/de_pau.txt”</strong> 
+        com podem observar s’ha creat sense cap problema.</p>
+      <img src="../img/usuaris2_19.png" alt="Captura 19 de la pràctica">
+      <p>En aquest cas accedirem amb l’usuari marc i dins d’ell executarem la següent comanda <strong>“rm /srv/pixelforge/compartit/de_pau.txt”</strong> 
+        aquesta comanda preguntara si es vol esborrar el fitxer en posar <strong>“y”</strong> s'esborrarà sense cap problema.</p>
+      <img src="../img/usuaris2_20.png" alt="Captura 20 de la pràctica">
+      <p>Després amb <strong>“sudo chmod +t /srv/pixelforge/compartit”</strong> afegirem el sticky bit a la carpeta i seguidament amb 
+        <strong>“ls -ld /srv/pixelforge/compartit”</strong> mirarem que els permisos han canviat perquè podem veure que s’ha afegit al final una t.</p>
+      <img src="../img/usuaris2_21.png" alt="Captura 21 de la pràctica">
+      <p>Altra vegada accedirem a pau, seguidament executarem <strong>“touch /srv/pixelforge/compartit/de_pau.txt”</strong> 
+        per a tornar a crear el fitxer que ens havien eliminat i sortirem, després accedirem com a marc i amb la mateix comanda 
+        <strong>“rm /srv/pixelforge/compartit/de_pau.txt”</strong> tractarem d’esborrar el fitxer, en aquest cas no va funcionar.</p>
+      <img src="../img/usuaris2_22.png" alt="Captura 22 de la pràctica">
+      <p>Ara accedirem a l’usuari marc amb <strong>“su - marc”</strong> i intentarem realitzar un <strong>“ls /srv/pixelforge/codi”</strong>
+        , com podem observar ens ha denegat l’accés per falta de permisos.</p>
+      <img src="../img/usuaris2_23.png" alt="Captura 23 de la pràctica">
+      <p>Seguidament amb <strong>“sudo setfacl -m u:marc:rx /srv/pixelforge/codi”</strong> li donrarem a l’usuari marc el permís d’executar i lectura, 
+        després amb <strong>“ls -ld /srv/pixelforge/codi”</strong> comprovarem els permisos, en aquest cas ens apareix un + això significa que s’esta fent ús d’un ACL,
+        per últim executem la comanda <strong>“getfacl /srv/pixelforge/codi”</strong> on podrem veure qui te un ACL amb aquesta carpeta.</p>
+      <img src="../img/usuaris2_24.png" alt="Captura 24 de la pràctica">
+      <p>Accedirem amb l’usuari marc i dins executarem la comanda <strong>“ls /srv/pixelforge/codi”</strong>, 
+        com podem observar ara si ens deixa llegir la carpeta sense cap problema.</p>
+      <img src="../img/usuaris2_25.png" alt="Captura 25 de la pràctica">
+      <p>Després de realitzar la revisió amb la comanda <strong>“sudo setfacl -x u:marc /srv/pixelforge/codi”</strong> 
+        li treurem l’accés al marc i seguidament amb <strong>“getfacl /srv/pixelforge/codi”</strong> podem veure que l’usuari ja no surt a users com abans.</p>
+      <img src="../img/usuaris2_26.png" alt="Captura 26 de la pràctica">
+      <p>A continuació mirarem la nostra màscar actual amb <strong>“umask”</strong>, en el meu cas hem surt 0002 això vol dir
+        que els meus fitxers estan en 664 i les carpetes estan en 775, seguidament sortirem de pixelforge amb <strong>“cd ~”</strong>
+        i amb <strong>“touch prova_umask.txt”</strong> crearem un fitxer nou, també crearem una carpeta amb <strong>“mkdir prova_umask_dir”</strong> 
+        i per últim amb <strong>“ls -ld prova_umask.txt prova_umask_dir”</strong> veurem que el fitxer té permisos 664 i la carpeta 775.</p>
+      <img src="../img/usuaris2_27.png" alt="Captura 27 de la pràctica">
+      <p>Ara realitzarem un canvi de màscara amb <strong>“umask 027”</strong>, seguidament crearem un nou fitxer amb <strong>“touch prova2.txt”</strong>
+        i una nova carpeta amb <strong>“mkdir prova2_dir”</strong> i per últim executarem <strong>“ls -ld prova2.txt prova2_dir”</strong> on podrem veure que 
+        el fitxer es 640 i la carpeta 750.</p>
+      <img src="../img/usuaris2_28.png" alt="Captura 28 de la pràctica">
+      <p>Abans de finalitzar executarem la comanda <strong>“ls -l /usr/bin/passwd”</strong> per a poder visualitzar els seus permisos, 
+        com podem observar on hauria de tenir una x del propietari hi ha una s, això és per el bit SUID.</p>
+      <img src="../img/usuaris2_29.png" alt="Captura 29 de la pràctica">
+      <p>Per a finalitzar executarem la comanda <strong>“find /usr/bin -perm -4000 2>/dev/null”</strong> per a realitzar una búsqueda 
+        de tots els programes del sistema que tenen el bit SUID, en aquest cas podem veure ordres que en algun moment més permisos que l’usuari que fa l’execució.</p>
+      <img src="../img/usuaris2_30.png" alt="Captura 30 de la pràctica">
+      <p class="tornar-index"><a href="#index-apartats">↑ Tornar a l'índex</a></p>
+     </article>
+
   </section>
 </main>
 
