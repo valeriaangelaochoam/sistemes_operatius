@@ -125,7 +125,196 @@
       <img src="../img/formateig_22.png" alt="Captura 22 de la pràctica">
       <p class="tornar-index"><a href="#index-apartats">↑ Tornar a l'índex</a></p>
     </article>
+
     <article class="apartat" id="apartat3">
+      <h2>3. Gestió de processos</h2>
+      <p>Per a començar aquest treball accedirem al terminal i executarem <strong>“sudo su”</strong> 
+        per a accedir com l’usuari sudo, seguidament crearem una carpeta anomenada missió amb la comanda <strong>“mkdir ~/missio”</strong>.</p>
+      <img src="../img/proces_01.png" alt="Captura 1 de la pràctica">
+      <p>Seguidament accedirem dins de la carpeta creada amb la comanda <strong>“cd ~/missio”</strong>, per a després executar la comanda 
+        <strong>“pwd”</strong> i veure com a resposta la ruta on estem, en el meu cas surt <strong>“/root/missio”</strong>.</p>
+      <img src="../img/proces_02.png" alt="Captura 2 de la pràctica">
+      <p>Ara crearem el primer script anomenat minador que ens demana el treball per a fer-ho executarem la comanda <strong>“nano minador”</strong>.</p>
+      <img src="../img/proces_03.png" alt="Captura 3 de la pràctica">
+      <p>Dins del fitxer escriurem tres línies <strong>“#!/bin/bash”</strong> aquesta linea especifica quin programa ha d’executar l’script en aquest cas el bash, 
+        <strong>“# Gasta CPU sense parar”</strong> la segona és un comentari i <strong>“while true; do :; done”</strong>, l'última és un bucle que mai finalitza,
+        però no fa res, però igualment fa que la CPU gasti.</p>
+      <img src="../img/proces_04.png" alt="Captura 4 de la pràctica">
+      <p>Guardarem tots els canvis polsant <strong>“Ctrl +o”</strong> i sortirem del fitxer amb <strong>“Ctrl +x”</strong>, seguidament comprovarem que en el fitxer 
+        s’hagi desat bé el contingut, per això executarem la comanda <strong>“cat minador”</strong>, com podem observar tot el contingut s’ha guardat sense cap problema.</p>
+      <img src="../img/proces_05.png" alt="Captura 5 de la pràctica">
+      <p>A continuació observarem els permisos del fitxer creat, per a fer-ho executarem la comanda <strong>“ls -l minador”</strong>, com podem veure que el propietari 
+        té els seus permisos els quals són de lectura i escriptura, que els grups tenen el permís de lectura i que la resta també té el mateix, seguidament si intentem executar-
+        ho amb <strong>“./minador”</strong> no podrem perquè no tenim el permís d’execució.</p>
+      <img src="../img/proces_06.png" alt="Captura 6 de la pràctica">
+      <p>Seguidament executarem la comanda <strong>“chmod +x minador”</strong> per a donar-li permís d’execució a l’usuari, als grups i als altres, 
+        per a després executar <strong>“ls -l minador”</strong> per a tornar a mirar els permisos del fitxer, com podem observar en aquest cas tots tenen el permís d’execució.</p>
+      <img src="../img/proces_07.png" alt="Captura 7 de la pràctica">
+      <p>Ara crearem un nou fitxer amb la comanda <strong>“nano backup_nocturn”</strong> per a crear el segon script per a poder realitzar un backup que es passa el temps esperant.</p>
+      <img src="../img/proces_08.png" alt="Captura 8 de la pràctica">
+      <p>Dins del fitxer escriurem tres línies el <strong>“#!/bin/bash”</strong> per a indicar al sistema que aquest script que estem creant l’executi el /bin/bash, 
+        després escriurem <strong>“# Simula una còpia de seguretat que espera”</strong> aquest és un comentari ja que comença amb #, això lo ignora el bash i per últim afegirem
+        la linea <strong>“while true; do sleep 60; done”</strong> per a fer un bucle infinit i que es queda parat 60 segons després de cada volta.</p>
+      <img src="../img/proces_09.png" alt="Captura 9 de la pràctica">
+      <p>Com abans comprovarem el contingut del fitxer amb el comandament <strong>“cat backup_nocturn”</strong>, en aquest cas com abans tot el contingut s’ha guardat correctament.</p>
+      <img src="../img/proces_10.png" alt="Captura 10 de la pràctica">
+      <p>Ara crearem el tercer fitxer per a crear el tercer script anomenat espia, per a poder fer-ho executarem la comanda <strong>“nano espia”</strong>.</p>
+      <img src="../img/proces_11.png" alt="Captura 11 de la pràctica">
+      <p>Dins del fitxer afegirem la linea <strong>“#!/bin/bash”</strong> per indicar que el script l’executa el /bin/bash, després afegirem la segona la linea 
+        <strong>“# No es deixa tancar amb un kill normal”</strong> el qual es un comentari per al script, en aquest cas la tercera línea hem de posar 
+        <strong>“trap 'echo "[espia] SIGTERM? Ni parlar-ne!"' TERM”</strong> per a definir que fer quan el procés recibeix la senyal i ens envia una senyal la qual envia 
+        un kill PID per defecte i al finalitzar la comanda imprimeix el missatge Ni parlar-ne, per últim afegirem la linea <strong>“while true; do sleep 2; done”</strong> 
+        per a crear un bucle infinit que fa dormir 2 segons en cada volta, per a que el procés sigui viu.</p>
+      <img src="../img/proces_12.png" alt="Captura 12 de la pràctica">
+      <p>Com als altres scripts guardarem els canvis fets i sortirem del fitxer, per a continuació executar el comandament <strong>“cat espia”</strong>
+        i comprovar que el contingut s’hagi guardat completament.</p>
+      <img src="../img/proces_13.png" alt="Captura 13 de la pràctica">
+      <p>A continuació crearem el 4 script anomenat descarrega.sh, per a fer-ho executarem la comanda <strong>“nano descarrega.sh”</strong> i accedirem dins del fitxer.</p>
+      <img src="../img/proces_14.png" alt="Captura 14 de la pràctica">
+      <p>Dins del fitxer afegirem les línies que apareixen en la imatge per realitzar una simulació de la descàrrega de una ISO d’Ubuntu, com es comparteix 
+        la CPU amb l’script dels miners, poden tardar més quan competeixen per la CPU i això deixa observar l’efecte dels processos sospitosos.</p>
+      <img src="../img/proces_15.png" alt="Captura 15 de la pràctica">
+      <p>Com als anteriors scripts guardarem tots els canvis i sortirem, seguidament executarem la comanda <strong>“cat descarrega.sh”</strong>
+        , com les anteriors podem observar que apareix tot el contingut.</p>
+      <img src="../img/proces_16.png" alt="Captura 16 de la pràctica">
+      <p>Per a finalitzar crearem l'últim script anomenat sospitosos amb la comanda <strong>“nano sospitosos.sh”</strong> i accedirem dins del 
+        fitxer per a poder afegir l’script indicat per ell.</p>
+      <img src="../img/proces_17.png" alt="Captura 17 de la pràctica">
+      <p>Dins del script afegirem les línies que es mostren en la imatge per a posar en acció els tres processos del sabotatge, en realitzar 
+        això els dos miners forcen a la misma CPU, aquest afecte és igual per a totes les màquines, igualment que tinguin diferents números de nuclis.</p>
+      <img src="../img/proces_18.png" alt="Captura 18 de la pràctica">
+      <p>Per a finalitzar aquest apartat executarem per a l'últim script la comanda <strong>“cat sospitosos.sh”</strong>
+        , com als anteriors podem observar que s’ha guardat tot el contingut que hem realitzat.</p>
+      <img src="../img/proces_19.png" alt="Captura 19 de la pràctica">
+      <p>Seguidament donarem permís d’execució als quatre fitxers que hem creat fa un moment amb la comanda <strong>“chmod +x backup_nocturn espia descarrega.sh sospitosos.sh”</strong> 
+        i després comprovarem en canvi amb la comanda <strong>“ls -l”</strong>, com podem observar el propietari, els grups i els altres tenen permís d’execució.</p>
+      <img src="../img/proces_20.png" alt="Captura 20 de la pràctica">
+      <p>A continuació amb la comanda <strong>“./sospitosos.sh”</strong> executarem l’script del sabotatge, per a saber que funciona ens ha de sortir el missatge
+        <strong>“Fet. El servidor comença a anar lent...”</strong>, igualment que no apareix res més el script esta funcionant en segon pla.</p>
+      <img src="../img/proces_21.png" alt="Captura 21 de la pràctica">
+      <p><strong>Reconeixement</strong></p>
+      <p>Des del primer terminal veurem el PID del meu shell, per això executarem la comanda <strong>“echo $$”</strong>, en aquest cas ens surt el número 3272.</p>
+      <img src="../img/proces_22.png" alt="Captura 22 de la pràctica">
+      <p>Seguidament executarem la comanda <strong>“ps”</strong> per poder observar els processos d’aquest terminal, en aquest cas podem observar que ens surt 
+        els processos com el minador, el sospitosos.sh, el espía, el backup_nocturn i el sleep.</p>
+      <img src="../img/proces_23.png" alt="Captura 23 de la pràctica">
+      <p>A continuació executarem la comanda <strong>“ps -A | wc -l”</strong> per a veure el recompte dels processos que té tot els sistema, en el meu cas m’ha
+        apareix el número 251, això vol dir que hi ha 251 processos actius en el meu sistema.</p>
+      <img src="../img/proces_24.png" alt="Captura 24 de la pràctica">
+      <p>Després buscarem en la llista dels meus processos els processos que siguin sospitosos, per a fer-ho executarem la comanda <strong>“ps -u $USER”</strong>
+        , com podem observar en els primer processos no ens apareix cap procés sospitós, per als últims podem veure els processos de minador, sospitosos, espia i backup nocturn.</p>
+      <img src="../img/proces_25.png" alt="Captura 25 de la pràctica">
+      <img src="../img/proces_26.png" alt="Captura 26 de la pràctica">
+      <p>Seguidament observarem on són aquests processos sospitosos dins de l’arbre de processos, per a fer-ho executarem la comanda <strong>“pstree -p $USER”</strong>
+        , al principi com abans no podrem veure els processos sospitosos.</p>
+      <img src="../img/proces_27.png" alt="Captura 27 de la pràctica">
+      <p>Per a poder visualitzar els processos sospitosos com el backup_nocturn haurem de baixar un poquet, en aquest cas podem saber que està dins del systemd, 
+        també podem observar els processos com l’espia i que ha fet una volta, ja que ha realitzat un sleep això ho podem veure en el proces del backup.</p>
+      <img src="../img/proces_28.png" alt="Captura 28 de la pràctica">
+      <img src="../img/proces_29.png" alt="Captura 29 de la pràctica">
+      <p>Per últim haurem de baixar del tot i veurem que els processos anomenats minador i sospitosos estan dins, però en aquest cas el sospitós ja ha realitza 
+        unes quantes voltes, ja que ha realitzat 4 voltes en total.</p>
+      <img src="../img/proces_30.png" alt="Captura 30 de la pràctica">
+      <img src="../img/proces_31.png" alt="Captura 31 de la pràctica">
+      <p>A continuació executarem la comanda top, amb aquesta comanda podem veure una llista actualitzada dels processos que canvien cada pocs segons, en aquest 
+        cas podem veure que els minadors estan dalt de tot, per a sortir del top polsarem en q.</p>
+      <img src="../img/proces_32.png" alt="Captura 32 de la pràctica">
+      <p>Seguidament farem servir la comanda <strong>“ps aux --sort=-%cpu | head -6”</strong> ja que ens mostren els 5 processos que més ha fet servir la CPU
+        , en aquest cas ens fixarem en els dos processos de minadors que ens gasten un 50 % de la meva CPU.</p>
+      <img src="../img/proces_33.png" alt="Captura 33 de la pràctica">
+      <p>Després realitzarem un filtre de la llista completa per a poder visualitzar sols les línies que tenen el <strong>“minador”</strong>
+        , per a fer-ho executarem la comanda <strong>“ps aux | grep minador”</strong>, com podem observar ens apareix tres processos, però el procés de l'última 
+        línea és el mateix grep que té la paraula minador.</p>
+      <img src="../img/proces_34.png" alt="Captura 34 de la pràctica">
+      <p>A continuació executarem la comanda <strong>“ps aux | grep [m]inador”</strong> per a que també ens mostrin les línies que contenen la paraula
+        <strong>“minador”</strong>, però en aquest cas que no surti la linea del grep, en aquest com podem observar sols ens surt els processos de minador 
+        del bin/bash que s’ha realitzat en el root.</p>
+      <img src="../img/proces_35.png" alt="Captura 35 de la pràctica">
+      <p>Ara amb la comanda <strong>“pgrep minador”</strong> ens mostraran sols els PID dels dos processos del minador, com podem observar ens surt els dos processos
+        , els quals són els 4972 i 4973.</p>
+      <img src="../img/proces_36.png" alt="Captura 36 de la pràctica">
+      <p>A continuació executarem la comanda <strong>“pgrep -l 'minador|espia|backup'”</strong> per a buscar tots els processos sospitosos alhora, en aquest cas buscarem 
+        els processos del minador, espia i del backup amb el seu PID al seu costat, com podem observar ens apareix els processos que busquem.</p>
+      <img src="../img/proces_37.png" alt="Captura 37 de la pràctica">
+      <p>Seguidament amb la comanda <strong>“ps -o pid,ppid,user,stat,etime,%cpu,comm -C minador,espia,backup_nocturn”</strong> demanarem al ps que només ens mostren
+        les columnes que ens interessen dels tres sospitosos, com podem observar podem observar qui l’executat, el seu estat, el temps que ha estat funcionat i la quantitat 
+        de cpu que fa servir.</p>
+      <img src="../img/proces_38.png" alt="Captura 38 de la pràctica">
+      <p>Després executarem la comanda <strong>“ps -o pid,comm -p 2469”</strong> per a poder descubrir qui és el seu pare, en el meu cas com el PPID es 1861
+        li posarem aquest PPID al comandament, com podem observar en surt systemd.</p>
+      <img src="../img/proces_39.png" alt="Captura 39 de la pràctica">
+      <p>Obrirem una segona terminal i accedirem a la carpeta missió amb <strong>“cd ~/missio”</strong>, per a seguidament crea un fitxer de progrés amb 
+        la comanda <strong>“echo "Encara no ha començat" > progres.txt”</strong>.</p>
+      <img src="../img/proces_40.png" alt="Captura 40 de la pràctica">
+      <p>Seguidament executarem la comanda <strong>“watch -n 1 cat progres.txt”</strong> per a que ens surti un monitor que ens mostri el fitxer de progrés cada segon.</p>
+      <img src="../img/proces_41.png" alt="Captura 41 de la pràctica">
+      <p>Després de executar la comanda podem observar el monitor amb el missatge d’encara no ha començat, aquest apartat el deixarem obert fins que finalitze la missió.</p>
+      <img src="../img/proces_42.png" alt="Captura 42 de la pràctica">
+      <p>Obrirem la primera terminal i executarem la descàrrega en primer pla amb la comanda <strong>“./descarrega.sh”</strong>,
+        en fer això podem observar que ha canviat el percentatge del terminal 2 ja que està pujant amb el missatge de descarregant ubuntu iso amb el seu percentatge.</p>
+      <img src="../img/proces_43.png" alt="Captura 43 de la pràctica">
+      <img src="../img/proces_44.png" alt="Captura 44 de la pràctica">
+      <p>Seguint dins del terminal 1 polsarem el Ctrl + Z, això fara que la descarrega es quedi aturada, en fer això la descàrrega del terminal 2 queda congelada del tot.</p>
+      <img src="../img/proces_45.png" alt="Captura 45 de la pràctica">
+      <p>A continuació amb la comanda <strong>“jobs -l”</strong> podem observar els treballs del terminal, en fer això podem observar la PID de la descàrrega que s’ha aturat abans.</p>
+      <img src="../img/proces_46.png" alt="Captura 46 de la pràctica">
+      <p>Ara farem que continuï la descàrrega en segon pla fent servir la comanda <strong>“bg %1”</strong>, en fer això podem observar que el percentatge 
+        de la descàrrega esta augmentat i podem escriure en el terminal 1 sense cap problema.</p>
+      <img src="../img/proces_47.png" alt="Captura 47 de la pràctica">
+      <p>Ara executarem la comanda <strong>“fg %1”</strong> per a portar la descàrrega a primera pla, com podem observar la primera terminal torna a quedar ocupada per la descàrrega.</p>
+      <img src="../img/proces_48.png" alt="Captura 48 de la pràctica">
+      <p>Tornarem a executar la comanda <strong>“bg %1”</strong> per a que la descàrrega torni a executar-se en segon pla i que poguessin escriure al terminal 1 sense cap problema.</p>
+      <img src="../img/proces_49.png" alt="Captura 49 de la pràctica">
+      <p>Seguidament obrirem el terminal 1 i executarem la comanda <strong>“top -p $(pgrep -d, 'minador|descarrega')”</strong> per a que sols ens mostrin 
+        els processos de minador i descarrega amb els seus PID, com podem observar cada procés té un 14% de la CPU, per a poder sortir del top polsarem en la tecla q.</p>
+      <img src="../img/proces_50.png" alt="Captura 50 de la pràctica">
+      <p>A continuació pujarem la prioritat de la descàrrega per a fer-ho farem servir el seu PID que abans hem vist en el top, per a fer-ho executarem al comanda
+        <strong>“renice -n -10 -p 12791”</strong>.</p>
+      <img src="../img/proces_51.png" alt="Captura 51 de la pràctica">
+      <p>Tornarem a realitzar un <strong>“top -p $(pgrep -d, 'minador|descarrega')”</strong> i observarem la terminal 2, com la descàrrega ha augmentat 
+        ja que ha arribat a més del 30 percent, en fer el top podem observar que el proces de la descarrega està a dalt del tot perquè gasta més del percent de la CPU.</p>
+      <img src="../img/proces_52.png" alt="Captura 52 de la pràctica">
+      <p>Seguidament executarem la comanda <strong>“pgrep -l minador”</strong> per a buscar els PID dels minadors, com podem veure els seus PID són els 4972 i 4973,
+        després executarem la comanda <strong>“kill 4972 4973”</strong> per enviar una senyal al SIGTERM.</p>
+      <img src="../img/proces_53.png" alt="Captura 53 de la pràctica">
+      <img src="../img/proces_54.png" alt="Captura 54 de la pràctica">
+      <p>Ara comprovarem si els processos sigueixin ha hi, per a fer-ho executarem la comanda <strong>“pgrep -l minador”</strong> , 
+        com podem observar no surt res, això fara que la descarga vagi més rapid ja que no té cap competència.</p>
+      <img src="../img/proces_55.png" alt="Captura 55 de la pràctica">
+      <p>A continuació executarem la comanda <strong>“pgrep -l espia”</strong> per a buscar la PID del procés anomenat espia, com podem veure el seu PID es 5851, 
+        seguidament amb <strong>“kill 5851”</strong> enviarem una senyal SIGTERM amb el PID de l’espia, en fer això podem veure que ens surt en la terminal 1 ja que vam 
+        executar el sospitos.sh ens surt el missatge <strong>“[espia] SIGTERM? Ni parlar-ne!”</strong>.</p>
+      <img src="../img/proces_56.png" alt="Captura 56 de la pràctica">
+      <img src="../img/proces_57.png" alt="Captura 57 de la pràctica">
+      <p>Ara amb la comanda <strong>“pgrep -l espia”</strong> comprovarem si el procés del espia segueix actiu, com podem observar segueix viu, 
+        això passa perquè l’espia ha ignorat la senyal</p>
+      <img src="../img/proces_58.png" alt="Captura 58 de la pràctica">
+      <p>Seguidament executarem la comanda <strong>“kill -9 5851”</strong> per a enviar un SIGKILL com això no ho pot ignorar tornarem a executar
+        la comanda <strong>“pgrep -l espia”</strong>, en aquest cas podem veure que no ens surt res, ja que s’ha matat el procés sense cap problema.</p>
+      <img src="../img/proces_59.png" alt="Captura 59 de la pràctica">
+      <img src="../img/proces_60.png" alt="Captura 60 de la pràctica">
+      <p>A continuació farem servir la comanda <strong>“pgrep -l backup”</strong> per a buscar la seva PID, en aquest cas el seu PID es el 7085,
+        seguidament amb <strong>“kill -STOP 7085”</strong> pararem el procés del backup i amb la comanda <strong>“ps -o pid,stat,comm -p 7085”</strong> 
+        podem veure que el seu estat és T, això vol dir que està aturat.</p>
+      <img src="../img/proces_61.png" alt="Captura 61 de la pràctica">
+      <img src="../img/proces_62.png" alt="Captura 62 de la pràctica">
+      <p>Després amb la comanda <strong>“kill -CONT 7085”</strong> farem que continue el procés del backup i amb la comanda <strong>“ps -o pid,stat,comm -p 7085”</strong>
+        veurem que ha canviat el seu estat a S, això vol dir que funcionar i que se esta esperant.</p>
+      <img src="../img/proces_63.png" alt="Captura 63 de la pràctica">
+      <p>Des del terminal 1 executarem la comanda <strong>“./descarrega.sh &”</strong> en fer això engegarem una altre descàrrega nova en segon pla,
+        en fer això el percentatge comença altra vegada en el terminal 2, per a últim tancarem la terminal 1.</p>
+      <img src="../img/proces_64.png" alt="Captura 64 de la pràctica">
+      <p>Seguidament accedirem a altra terminal i accedirem a la carpeta /missio amb <strong>“cd ~/missio”</strong>
+        , dins de la carpeta executarem la comanda <strong>“nohup ./descarrega.sh &”</strong> per a tornar a engegar la descàrrega amb el nohup, 
+        com abans tancarem aquesta terminal i accedirem a la terminal 2 fins i podem veure que continua pujant fins que finalitzi.</p>
+      <img src="../img/proces_65.png" alt="Captura 65 de la pràctica">
+      <p>Per a finalitzar el treball aturarem tots els processos de la missió que encara sigui actius amb el comandament <strong>“pkill 'minador|espia|backup_nocturn|descarrega'”</strong> 
+        i comprovarem que no queda cap dels processos actius d’abans amb el comandament <strong>“pgrep -l 'minador|espia|backup_nocturn|descarrega'”</strong>.</p>
+      <img src="../img/proces_66.png" alt="Captura 66 de la pràctica">
+      <p class="tornar-index"><a href="#index-apartats">↑ Tornar a l'índex</a></p>
+     </article>
+    
+    <article class="apartat" id="apartat5">
             <h2>5. Gestió d'usuaris i grups (1a part)</h2>
       <p>Executarem la comanda <strong>“whoami”</strong>, gràcies a això podem saber amb quin usuari estem utilitzant, en aquest cas és valeria, seguidament amb 
         <strong>“id”</strong> veurem el nostre UID, el nostre grup i els nostres grups, en el meu cas em surt (uid) =1000, (gid)=1000 i (groups)= 1000, 4, 24, etc, 
@@ -279,7 +468,7 @@
       <p class="tornar-index"><a href="#index-apartats">↑ Tornar a l'índex</a></p>
     </article>
 
-    <article class="apartat" id="apartat4">
+    <article class="apartat" id="apartat6">
       <h2>6. Gestió d'usuaris i grups (2a part)</h2>
       <p>Crearem una carpeta anomenada pixelforge amb la comanda <strong>“sudo mkdir -p /srv/pixelforge”</strong>, 
         seguidament accedirem dins de la carpeta creada amb la comanda <strong>“cd /srv/pixelforge”</strong> i per últim executarem 
@@ -392,7 +581,6 @@
       <img src="../img/usuaris2_30.png" alt="Captura 30 de la pràctica">
       <p class="tornar-index"><a href="#index-apartats">↑ Tornar a l'índex</a></p>
      </article>
-
   </section>
 </main>
 
