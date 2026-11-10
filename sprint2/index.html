@@ -38,7 +38,120 @@
          <tr><td>6</td><td><a href="#apartat7">Quotes de disc</a></td></tr>
       </tbody>
     </table>
-
+        <tr><td>1</td><td><a href="#apartat1">Sistemes de fitxers i particions</a></td></tr>
+      </tbody>
+    </table>
+    <article class="apartat" id="apartat1">
+      <h2>1. Sistemes de fitxers i particions</h2>
+      <p>Per a començar aquesta pràctica crearem un disc nou a la nostra màquina virtual d’uns 25 GB, seguidament accedirem a 
+        la màquina virtual i obrirem la terminal per a després executar la comanda 
+        <strong>“sudo fdisk -l”</strong>, gràcies a aquesta comanda podrem veure tots els discos i les seves 
+        particions, en aquest cas veurem que el disc nou no te cap partició ni taula de particions o diferencia del disc del sistema.</p>
+      <img src="../img/particions_01.png" alt="Captura 1 de la pràctica">
+      <img src="../img/particions_02.png" alt="Captura 2 de la pràctica">
+      <p>A continuació crearem la primer partició amb la comanda <strong>“sudo fdisk /dev/sdb”</strong>, 
+        aquesta comanda obre una eina interactiva de particionament sobre el nostre disc sdb, lo primer que vam fer 
+        és posar l’ordre m per a mostra les diferents opcions que podem fer servir.</p>
+      <img src="../img/particions_03.png" alt="Captura 3 de la pràctica">
+      <p>Seguidament crearem una partició nova posant l’ordre <strong>“n”</strong> i li especificarem que volem 
+        que siga una partició primari afegint l’ordre <strong>“p”</strong>, en aquest cas en els següents apartats 
+        polsarem ENTER per a fer servir predeterminat i per últim especificarem que l'últim sector siga d’1 GB.</p>
+      <img src="../img/particions_04.png" alt="Captura 4 de la pràctica">
+      <p>Després li demanarem amb p que ens mostri la taula de particions per a poder comprovar-ho, per últim 
+        afegirem w per a escriure els canvis al disc i sortir del tot.</p>
+      <img src="../img/particions_05.png" alt="Captura 5 de la pràctica">
+      <p>Ara amb la comanda <strong>“sudo fdisk -l /dev/sdb”</strong> comprovarem que en el nostre disc dur afegit 
+        existeix la partició /dev/sdb1 d’un 1G tipus 83 LInux, com podem observar s’ha creat sense cap problema.</p>
+      <img src="../img/particions_06.png" alt="Captura 6 de la pràctica">
+      <p>A continuació formatearem la partició /dev/sdb1 amb el sistema de fitxers ext4 amb el comandament 
+        <strong>“sudo mkfs.ext4 -b 2048 -L particio1 /dev/sdb1”</strong>, aquesta comanda formata en ext4, 
+        fa que el bloc tingui la mida de 2048 bytes amb el nom de partició 1.</p>
+      <img src="../img/particions_07.png" alt="Captura 7 de la pràctica">
+      <p>Comprovarem la info del sistema de fitxers amb les comandes <strong>“sudo tune2fs -l /dev/sdb1 | 
+        grep Block”</strong> la qual mostra les línies de block (nom de blocs, la mida del bloc i blocs per grup), 
+        seguidament executarem <strong>“sudo lsblk -f /dev/sdb”</strong> per a veure l’arbre dels tipus de sistema de fitxers 
+        i amb <strong>“sudo blkid /dev/sdb1”</strong> veurem l’etiqueta, l’UUID, la mida de bloc, el tipus i el PARTUUID.</p>
+      <img src="../img/particions_08.png" alt="Captura 8 de la pràctica">
+      <p>Seguidament crearem el punt de muntatge on apareixerà la partició amb <strong>“sudo mkdir -p /mnt/particion”</strong>, 
+        després amb <strong>“cd /mnt”</strong> ens situem al directori mnt i a continuació muntarem la particio al directori amb 
+        <strong>“sudo mount /dev/sdb1 /mnt/particion/”</strong></p>
+      <img src="../img/particions_09.png" alt="Captura 9 de la pràctica">
+      <p>Després ens situem al directori particion amb <strong>“cd particion”</strong>, per a seguidament realitzar un
+        <strong>“ls”</strong> el qual ens mostra una carpeta que crea l’ext4 per a recuperat els fitxers i a continuació
+        crearem un directori amb <strong>“sudo mkdir prova”</strong> i un fitxer amb <strong>“sudo touch prova2”</strong> 
+        i si realitzem altra vegada un <strong>“ls”</strong> podem veure el fitxer i directori que havien creat.</p>
+      <img src="../img/particions_10.png" alt="Captura 10 de la pràctica">
+      <p>Tornarem al directori mnt amb <strong>“cd /mnt”</strong> i seguidament executarem la comanda 
+        <strong>“sudo umount /dev/sdb1”</strong> per a desmuntar la partició, però el directori /dev/sdb1 segueix 
+        existint, però buit, com podem observar en fer un <strong>“ls”</strong> altra vegada podem observar que existeix 
+        el directori particion.</p>
+      <img src="../img/particions_11.png" alt="Captura 11 de la pràctica">
+      <p>Seguidament amb <strong>“sudo mount -t ext4 /dev/sdb1 /mnt/particion/”</strong> tornarem a muntar-ho, 
+        però indicarem el tipus de sistema de fitxers amb <strong>“-t ext4”</strong>, després de fer això podem observar 
+        que en fer un <strong>“ls particion”</strong> ens mostren la carpeta prova i el fitxer prova2, això vol dir que són dades persistents.</p>
+      <img src="../img/particions_12.png" alt="Captura 12 de la pràctica">
+      <p>Abans de tocar el disc executarem el comandament <strong>“sudo umount /mnt/particion”</strong> 
+        per a desmuntar-ho i no tindre cap problema.</p>
+      <img src="../img/particions_13.png" alt="Captura 13 de la pràctica">
+      <p>A continuació crearem la segona partició amb la mateixa comanda <strong>“sudo fdisk /dev/sdb”</strong> d
+        ’abans, com abans utilitzarem l’ordre per a crear la segona partició i també farem servir <strong>“p”</strong> 
+        per a què sigui una partició primari, com abans polsarem ENTER i l’especificarem que sigui d’una mida 1 GB.</p>
+      <img src="../img/particions_14.png" alt="Captura 14 de la pràctica">
+      <img src="../img/particions_15.png" alt="Captura 15 de la pràctica">
+      <p>Comprovarem la particio creada amb l’ordre <strong>“p”</strong> i guardarem tots els canvis fet amb 
+        l’ordre w, com podem visualitzar la partició s’ha creat correctament.</p>
+      <img src="../img/particions_16.png" alt="Captura 16 de la pràctica">
+      <p>Seguidament amb la comanda <strong>“sudo mkfs.ntfs -f -L particio2 /dev/sdb2”</strong> formatarem la 
+        partició amb el sistema de fitxers NTFS de forma rapida amb una mida de clúster de 4096 amb el nom partició 2.</p>
+      <img src="../img/particions_17.png" alt="Captura 17 de la pràctica">
+      <p>Ara farem servir la comanda <strong>“lsblk -f /dev/sdb”</strong> per a veure les dues particions creades 
+        sdb1 ext4 i sdb2 ntfs i després executarem el comandament <strong>“sudo tune2fs -l /dev/sdb1 | grep "Block size"”</strong> 
+        per a poder observar només la mida de bloc.</p>
+      <img src="../img/particions_18.png" alt="Captura 18 de la pràctica">
+      <p>Després amb <strong>“sudo mkdir -p /mnt/particion2”</strong> crearem el segon punt de muntatge de la segona partició,
+        seguidament amb el comandament <strong>“sudo touch /mnt/particion/abans_de_muntar.txt”</strong> crearem un fitxer al 
+        directori amb la particio desmuntada i amb <strong>“ls /mnt/particion”</strong> podem observar que tenim el fitxer creat afegit.</p>
+      <img src="../img/particions_19.png" alt="Captura 19 de la pràctica">
+      <p>Si realitzem el seu muntatge amb el sistema de fitxers ext4 amb <strong>“sudo mount -t ext4 /dev/sdb1 /mnt/particion”</strong>
+        i després executem la comanda <strong>“ls /mnt/particion”</strong> podem observar que el fitxer abans_de_muntar.txt s’amaga,
+        perquè el seu contingut original s’amaga del directori, però al desmuntar-ho torna a aparèixer.</p>
+      <img src="../img/particions_20.png" alt="Captura 20 de la pràctica">
+      <p>Seguidament executarem la comanda <strong>“sudo mount -t ntfs-3g /dev/sdb2 /mnt/particion2”</strong> 
+        per a poder muntar la partició NTFS amb el controlador ntfs-3g, per a després executar <strong>“df -hT | grep sdb”</strong> 
+        en mostra l’espai de disc de les particions sdb amb unitats llegibles i els tipus de sistema de fitxers.</p>
+      <img src="../img/particions_21.png" alt="Captura 21 de la pràctica">
+      <p>Canviarem el propietari i el grup del directori amb el nostre usuari amb <strong>“sudo chown valeria:valeria /mnt/particion”</strong>,
+        seguidament escriurem el text ‘hola’ en un fitxer nou amb <strong>“echo "hola" > /mnt/particion/prova1.txt”</strong>.</p>
+      <img src="../img/particions_22.png" alt="Captura 22 de la pràctica">
+      <p>A continuació executarem la comanda <strong>“sudo umount /mnt/particion”</strong> per a desmuntar la partició sdb1, podem 
+        observar que després de desmuntar-ho i fer <strong>“ls /mnt/particion”</strong> ens torna a sortir el fitxer 
+        <strong>“abans_de_muntar.txt”</strong>, per últim elinaminarem el fitxer amb <strong>“sudo rm /mnt/particion/abans_de_muntar.txt”</strong> 
+        i amb la comanda <strong>“sudo umount /mnt/particion2”</strong> demuntarem la partició NTFS.</p>
+      <img src="../img/particions_23.png" alt="Captura 23 de la pràctica">
+      <p>Farem una còpia de seguretat del fitxer abans de realitzar alguna modificació amb <strong>“sudo cp /etc/fstab /etc/fstab.bak”</strong>
+        i amb <strong>“sudo blkid /dev/sdb1 /dev/sdb2”</strong> ens mostra els UUID de les dues particions, ja que els farem servir per al fitxer
+        fstab, també buscarem l’identificador de l’usuari amb <strong>“id -u”</strong>, en el meu cas es 1000.</p>
+      <img src="../img/particions_24.png" alt="Captura 24 de la pràctica">
+      <p>Accedirem al fitxer fstab amb la comanda <strong>“sudo nano /etc/fstab”</strong> i baixarem al final del fitxer i afegirem 
+        els UUID de les particions la ruta on volem muntar-los, el seu sistema de fitxers amb els defaults per determinar les opcions estàndards
+        i el nofail per a que el dispositiu arranque igualment que no el detecti.</p>
+      <img src="../img/particions_25.png" alt="Captura 25 de la pràctica">
+      <p>Farem que el sistema torni a llegir el fitxer fstab i apliqui els canvis amb <strong>“sudo systemctl daemon-reload”</strong>
+        i per últim executarem la comanda <strong>“sudo findmnt --verify”</strong> per a comprovar que el fstab estigui correcte, 
+        en aquest cas podem observar que hi ha tres avisos per el fitxer /swap.img i dos per el NTFS perquè el nucli no inclou suport 
+        natiu per a NTFS, ja que fa servir el ntfs-3g, però no son avisos greus.</p>
+      <img src="../img/particions_26.png" alt="Captura 26 de la pràctica">
+      <p>Abans de finalitzar muntarem tot el que hi ha dins del fstab amb la comanda <strong>“sudo mount -a”</strong> i amb
+        <strong>“df -hT | grep sdb”</strong> podem confirmar que les dues particions estan muntades correctament.</p>
+      <img src="../img/particions_27.png" alt="Captura 27 de la pràctica">
+      <p>Per a finalitzar reiniciarem la màquina virtual amb sudo reboot i tornarem a obrir la terminal per executar la comanda 
+        <strong>“df -hT | grep sdb”</strong> on podem observar que sense fer mount ja tenim les particions muntades sense cap problema
+        i amb <strong>“ls -l /mnt/particion /mnt/particion2”</strong> podem observar que tenim tots els arxius que hauren de quedar amb 
+        l’usuari valeria</p>
+      <img src="../img/particions_28.png" alt="Captura 28 de la pràctica">
+      <p class="tornar-index"><a href="#index-apartats">↑ Tornar a l'índex</a></p>
+     </article>
+    
     <article class="apartat" id="apartat2">
           <h2>2. Tipus de formateig</h2>
       <p>Per a començar aquesta pràctica accedirem dins del terminal i accedirem dins de l’usuari root amb 
